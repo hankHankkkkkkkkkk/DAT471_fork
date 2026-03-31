@@ -16,16 +16,16 @@ apptainer exec --bind "$JOB_DIR:$JOB_DIR" --bind /data:/data "$JOB_DIR/assignmen
 import duckdb
 
 dataset = "/data/courses/2026_dat471_dit066/datasets/bike_sharing_hourly.csv"
+dataset_sql = dataset.replace("'", "''")
 
 con = duckdb.connect()
 
 con.execute(
-    """
+    f"""
     CREATE OR REPLACE VIEW bike_sharing AS
     SELECT *
-    FROM read_csv_auto(?, header=True);
+    FROM read_csv_auto('{dataset_sql}', header=True);
     """,
-    [dataset],
 )
 
 row_count = con.execute(
