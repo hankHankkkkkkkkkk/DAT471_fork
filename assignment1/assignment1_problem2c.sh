@@ -12,6 +12,7 @@ cd "$JOB_DIR"
 
 export JOB_DIR
 
+# Need to bind /data to access the dataset, or the container can't read the dataset.
 apptainer exec --bind "$JOB_DIR:$JOB_DIR" --bind /data:/data "$JOB_DIR/assignment1.sif" python3 - <<'PY'
 import duckdb
 
