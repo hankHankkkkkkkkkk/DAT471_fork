@@ -7,12 +7,10 @@
 
 set -euo pipefail
 
-JOB_DIR="${SLURM_SUBMIT_DIR:-$(pwd)}"
-cd "$JOB_DIR"
+CONTAINER="/data/courses/2026_dat471_dit066/containers/assignment1.sif"
+DATASET="/data/courses/2026_dat471_dit066/datasets/bike_sharing_hourly.csv"
 
-export JOB_DIR
-
-apptainer exec --bind "$JOB_DIR:$JOB_DIR" --bind /data:/data "$JOB_DIR/assignment1.sif" bash -s <<'EOF'
+apptainer exec --bind /data:/data "$CONTAINER" bash -s <<'INNER_EOF'
 set -euo pipefail
 
 dataset="/data/courses/2026_dat471_dit066/datasets/bike_sharing_hourly.csv"
@@ -29,4 +27,4 @@ python3 /opt/mystery.py "$dataset"
 echo
 echo "Contents of /opt/mystery.py:"
 cat /opt/mystery.py
-EOF
+INNER_EOF
